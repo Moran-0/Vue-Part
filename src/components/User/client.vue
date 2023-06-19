@@ -2,24 +2,23 @@
   <div>
 
     <div style="padding:10px">
-      <el-input style="width:250px ;margin-left:40px " suffix-icon="el-icon-search" placeholder="请输入名称搜索" v-model="username"></el-input>
+      <el-input style="width:250px ;margin-left:40px " suffix-icon="el-icon-search" placeholder="请输入名称搜索" v-model="name"></el-input>
       <el-input style="width:250px;margin-left:40px " suffix-icon="el-icon-search" placeholder="请输入账号搜索"v-model="usercode"></el-input>
 
-      <el-button style="margin-left:30px" type="primary" @click="load">搜 索</el-button>
+      <el-button style="margin-left:30px" type="primary" @click="search">搜 索</el-button>
       <el-button style="margin-left:30px" type="warning" @click="reset">重 置</el-button>
     </div>
 
 
-<!--    <div style="margin:10px">-->
-<!--      <el-button type="danger" style="margin-left:40px " @click="delBatch">删 除<i class="el-icon-remove"></i></el-button>-->
-<!--     -->
-<!--    </div>-->
+    <div style="margin:10px">
+      <el-button type="danger" style="margin-left:40px " @click="delBatch">删 除  <i class="el-icon-remove"></i></el-button>
+    </div>
 
 
     <el-table :data="tableData" row-key="id"
               @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" text-align:center width="140">
+      <el-table-column prop="id" label="ID" text-align:center width="70">
       </el-table-column>
       <el-table-column prop="customer_id" label="客户账号 " text-align:center width="170">
       </el-table-column>
@@ -49,6 +48,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <div style="padding:10px">
       <el-pagination
           @size-change="handleSizeChange"
@@ -91,11 +91,12 @@ export default {
   name: 'Client',
   data(){
     return {
+      tableData:[],
       roles:[],
       total:0,
       pageNum:1,
-      pageSize:5,
-      username:"",
+      pageSize:10,
+      name:"",
       usercode:"",
       dialogFormVisible:false,
       form:{},
@@ -125,24 +126,47 @@ export default {
     },
     //将请求数据封装为一个方法
     load() {
-      //请求分页查询数据
-      //fetch("http://localhost:8084/user/page?pageNum="+this.pageNum+"&pageSize="+this.pageSize+"").then(res=>res.json()).then(res=>{
-      //使用axios封装的request
-      //使用地址this.request.get("http://localhost:8084/user/page",{
-      //使用baseURL
-   lert("eee");
-      this.request.get("/customer").then((res)=>{
-       alert("hello");
+      this.request.get("/customer",{
+        params:{
+          page:this.pageNum,pageSize:this.pageSize,customerName:this.name,customerId:this.usercode}}).then((res)=>{
+       // alert("hello");
        console.log(res.data);
-        this.roles=res.data
+        this.tableData=res.data.rows
+        this.total =res.data.total
       }),(error)=>{
-        console.log(err);
+        console.log(error);
       }
     },
-
-
+    search(){
+      const phone= /^1\d{10}$/    //以1开头的数字
+      if (this.usercode !="" && !(phone.test(this.usercode))) {
+        this.$message.error("账号格式错误");
+      }else{
+        this.load();
+      }
+    },
+    delBatch(){
+      let ids=this.multipleSelection.map(v=>v.id);//map这个方法可以实现将multipleSelection中的对象扁平化处理。
+      console.log(ids);
+      let url = "/customer/"+ids[0]
+      for (let i in (1,5)){
+        url += ","
+        url+= ids[i]
+      }
+      console.log(url)
+      if (ids.length!=0){
+        this.request.get(url).then(res=>{
+          if(res){
+            this.$message.success("批量删除成功");
+            this.load();
+          }else{
+            this.$message.error("批量删除失败");
+          }
+        })
+      }else alert("请选择要删除的用户！")
+    },
     reset(){
-      this.username="";
+      this.name="";
       this.usercode="";
       this.load();
     },
@@ -160,7 +184,8 @@ export default {
     //   })
     // },
     handleDelete(id){
-      this.request.delete("/customer/{ids}").then(res=>{
+      let url = "/customer/"+id+""
+      this.request.get(url).then(res=>{
         if(res){
           this.$message.success("删除成功");
           this.load();

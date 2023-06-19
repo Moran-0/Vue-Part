@@ -23,10 +23,10 @@
 
 
     <el-submenu index="1">
-      <template slot="title"><i class="el-icon-s-check"></i>用户管理</template>
+      <template slot="title"><i class="el-icon-user-solid"></i>用户管理</template>
 
-      <el-menu-item index="1-1"@click="menu('/client')">客户信息</el-menu-item>
-      <el-menu-item index="1-2"@click="menu('/admin')">管理员信息</el-menu-item>
+      <el-menu-item index="1-1"@click="menu('/client')"><i class="el-icon-tickets"></i> 客户信息</el-menu-item>
+      <el-menu-item index="1-2"@click="menu('/admin')"><i class="el-icon-tickets"></i> 管理员信息</el-menu-item>
     </el-submenu>
 
 
@@ -43,7 +43,7 @@
     <el-menu-item index="3">
       <template slot="title">
         <i class="el-icon-s-shop"></i>
-        <span slot="title" @click="menu('/city')">门店管理</span>
+        <span slot="title" @click="menu('/Shop')">门店管理</span>
 
       </template>
     </el-menu-item>
@@ -51,16 +51,16 @@
     <el-submenu index="4">
       <template slot="title"><i class="el-icon-suitcase-1"></i>寄存柜管理</template>
 
-        <el-menu-item index="4-1"@click="menu('/lockerinfor')">寄存柜信息管理</el-menu-item>
-        <el-menu-item index="4-2"@click="menu('/shoplocker')">门店寄存柜管理</el-menu-item>
+        <el-menu-item index="4-1"@click="menu('/lockerinfor')"><i class="el-icon-receiving"></i> 寄存柜信息管理</el-menu-item>
+        <el-menu-item index="4-2"@click="menu('/shoplocker')"><i class="el-icon-office-building"></i> 门店寄存柜管理</el-menu-item>
     </el-submenu>
 
-    <el-submenu index="6">
-      <template slot="title"><i class="el-icon-menu"></i>数据管理</template>
+<!--    <el-submenu index="6">-->
+<!--      <template slot="title"><i class="el-icon-menu"></i>数据管理</template>-->
 
-      <el-menu-item index="6-1">选项1</el-menu-item>
-      <el-menu-item index="6-2">选项2</el-menu-item>
-    </el-submenu>
+<!--      <el-menu-item index="6-1">选项1</el-menu-item>-->
+<!--      <el-menu-item index="6-2">选项2</el-menu-item>-->
+<!--    </el-submenu>-->
 
   </el-menu>
 

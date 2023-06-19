@@ -11,7 +11,11 @@ import './assets/gloable.css'
 import axios from "axios";
 
 import request from '@/utils/request'//添加
+import fx67llClock from 'fx67ll-clock'
 
+
+
+Vue.use(fx67llClock)
 Vue.config.productionTip = false
 Vue.use(ElementUI);// 添加
 Vue.prototype.request=request // 添加

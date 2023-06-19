@@ -1,32 +1,36 @@
 <template>
   <div>
 
-
-
-
     <!--    <div style="margin:10px">-->
     <!--      <el-button type="danger" style="margin-left:40px " @click="delBatch">删 除<i class="el-icon-remove"></i></el-button>-->
     <!--     -->
     <!--    </div>-->
 
+    <div style="padding:10px">
+      <el-input style="width:250px ;margin-left:40px " suffix-icon="el-icon-search" placeholder="请输入订单号搜索" v-model="orderId"></el-input>
+      <el-input style="width:250px;margin-left:40px " suffix-icon="el-icon-search" placeholder="请输入客户账号搜索"v-model="customerId"></el-input>
+
+      <el-button style="margin-left:30px" type="primary" @click="search">搜 索</el-button>
+      <el-button style="margin-left:30px" type="warning" @click="reset">重 置</el-button>
+    </div>
 
       <el-table :data="tableData" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" label="订单号 " text-align:center width="140">
+      <el-table-column prop="orderId" label="订单号 " text-align:center width="100">
       </el-table-column>
-      <el-table-column prop="customer_id" label="客户账号 " text-align:center width="170">
+      <el-table-column prop="customerId" label="客户账号 " text-align:center width="170">
       </el-table-column>
-      <el-table-column prop="customer_name" label="寄存柜ID " text-align:center  width="170">
+      <el-table-column prop="lockerId" label="寄存柜ID " text-align:center  width="100">
       </el-table-column>
-      <el-table-column prop="customer_mailbox" label="门店ID" text-align:center width="170">
+      <el-table-column prop="shopId" label="门店ID" text-align:center width="170">
       </el-table-column>
-      <el-table-column prop="customer_create_time" label="开始时间" text-align:center width="230">
+      <el-table-column prop="fromTime" label="开始时间" text-align:center width="230">
       </el-table-column>
-      <el-table-column prop="customer_create_time" label="结束时间" text-align:center width="230">
+      <el-table-column prop="toTime" label="结束时间" text-align:center width="230">
       </el-table-column>
-      <el-table-column prop="customer_create_time" label="金额" text-align:center width="220">
+      <el-table-column prop="payTotal" label="金额" text-align:center width="100">
       </el-table-column>
-      <el-table-column prop="customer_create_time" label="订单时间" text-align:center width="220">
+      <el-table-column prop="orderTime" label="订单时间" text-align:center width="220">
       </el-table-column>
 
       <el-table-column fixed="right" label="操作" text-align:center width="200">
@@ -77,15 +81,12 @@ export default {
   name: 'LeaseOrder',
   data(){
     return {
-      tableData:[
-
-      ],
+      tableData:[],
       total:0,
       pageNum:1,
-      pageSize:5,
-      username:"",
-      nickname:"",
-      address:"",
+      pageSize:10,
+      orderId:"",
+      customerId:"",
       dialogFormVisible:false,
       form:{},
       multipleSelection:[]
@@ -93,7 +94,7 @@ export default {
   },
   created(){
     //请求分页查询数据
-    //  this.load();
+     this.load();
   },
   methods: {
     handleEdit(row){
@@ -113,25 +114,27 @@ export default {
     },
     //将请求数据封装为一个方法
     load() {
-      //请求分页查询数据
-      //fetch("http://localhost:8084/user/page?pageNum="+this.pageNum+"&pageSize="+this.pageSize+"").then(res=>res.json()).then(res=>{
-      //使用axios封装的request
-      //使用地址this.request.get("http://localhost:8084/user/page",{
-      //使用baseURL
-      alert("eee");
-      this.request.get("/customers").then((res)=>{
-        alert("hello");
+      this.request.get("/orders",{
+        params: {page:this.pageNum,pageSize:this.pageSize,orderId:this.orderId,customerId: this.customerId}
+      }).then((res)=>{
         console.log(res.data);
-        this.roles=res.data
+        this.tableData=res.data.rows
+        this.total = res.data.total
       }),(error)=>{
-        console.log(err);
+        console.log(error);
       }
     },
-
+    search(){
+      const phone= /^1\d{10}$/    //以1开头的数字
+      if (this.customerId !="" && !(phone.test(this.customerId))) {
+        this.$message.error("账号格式错误");
+      }else{
+        this.load();
+      }
+    },
     reset(){
-      this.username="";
-      this.nickname="";
-      this.address="";
+      this.orderId="";
+      this.customerId="";
       this.load();
     },
 

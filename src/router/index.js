@@ -13,7 +13,11 @@ import LockerInfor from "@/components/Locker/lockerinfor.vue";
 import ShopLocker from "@/components/Locker/shoplocker.vue";
 import Shop from "@/components/Shop/shop.vue";
 
-import { provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, CodeToText, TextToCode } from 'element-china-area-data'
+import { provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, codeToText, textToCode } from 'element-china-area-data'
+import Register from "@/components/Customer/register.vue";
+import Ordering from "@/components/PayOrder/Ordering.vue";
+import CustomerHome from "@/components/PayOrder/CustomerHome.vue";
+import MyOrder from "@/components/PayOrder/MyOrder.vue";
 
 
 Vue.use(VueRouter)
@@ -60,6 +64,11 @@ const routes = [
         name:'ShopLocker',
         component: ShopLocker
       },
+      {
+        path: '/Shop',
+        name:'shop',
+        component:Shop
+      },
     ]
   },
   {
@@ -86,6 +95,26 @@ const routes = [
     redirect: '/homepage',
     component: manage
   },
+  {
+    path: '/register',
+    name:'register',
+    component: Register
+  },
+  {
+    path: '/CustomerHome',
+    name:'CustomerHome',
+    component: CustomerHome
+  },
+  {
+    path: '/Ordering',
+    name:'Ordering',
+    component:Ordering
+  },
+  {
+    path: '/MyOrder',
+    name:'MyOrder',
+    component:MyOrder
+  }
 
 ]
 
@@ -94,6 +123,23 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+// 全局路由拦截，防止未登录访问页面
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
+//     if (store.state.token) {  // 通过vuex state获取当前的token是否存在
+//       next();
+//     }
+//     else {
+//       next({
+//         path: '/Login',
+//         query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+//       })
+//     }
+//   }
+//   else {
+//     next();
+//   }
+// })
 
 const originalPush = VueRouter.prototype.push; VueRouter.prototype.push = function push(location, onResolve, onReject) { if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject); return originalPush.call(this, location).catch((err) => err); };
 export default router
