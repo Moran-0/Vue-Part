@@ -10,6 +10,7 @@
 
 
         <el-header style="text-align: right; font-size: 12px; border-bottom: 4px solid #4389A2; line-height:60px">
+
           <Header name="欢迎登录"/>
         </el-header>
 
@@ -52,7 +53,8 @@ export default {
       address: '上海市普陀区金沙江路 1518 弄'
     };
     return {
-      tableData: Array(7).fill(item)
+      tableData: Array(7).fill(item),
+      managerData: JSON.parse(localStorage.getItem("manager")),
     }
   }
 }

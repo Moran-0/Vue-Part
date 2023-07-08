@@ -42,7 +42,7 @@
                          @confirm="handleDelete(scope.row.id)"
           >
 
-            <el-button type="danger" size="small" slot="reference" icon="el-icon-delete" >删除</el-button>
+            <el-button type="danger" size="medium" slot="reference" icon="el-icon-delete" >删除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>

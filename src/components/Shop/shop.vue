@@ -20,38 +20,38 @@
       <el-table-column type="selection" width="55"></el-table-column>
 
 
-      <el-table-column prop="id" label="门店ID" text-align:center  width="170">
+      <el-table-column prop="id" label="门店ID" align="center"  width="80">
       </el-table-column>
-      <el-table-column prop="name" label="门店名称" text-align:center width="170">
+      <el-table-column prop="name" label="门店名称" align="center" width="170">
       </el-table-column>
-      <el-table-column prop="province" label="省" text-align:center  width="170">
+      <el-table-column prop="province" label="省" align="center"  width="170">
       </el-table-column>
-      <el-table-column prop="city" label="市" text-align:center  width="170">
+      <el-table-column prop="city" label="市" align="center"  width="170">
       </el-table-column>
-      <el-table-column prop="district" label="区" text-align:center  width="170">
+      <el-table-column prop="district" label="区" align="center"  width="170">
       </el-table-column>
-      <el-table-column prop="address" label="地址" text-align:center width="170">
+      <el-table-column prop="address" label="地址" align="center" width="240">
       </el-table-column>
 
-      <el-table-column prop="tel" label="联系电话" text-align:center width="210">
+      <el-table-column prop="tel" label="联系电话" align="center" width="210">
       </el-table-column>
 
       <el-table-column prop="status" label="状态" width="150">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.status" @change="change(scope.row)" active-value="1"
-                     inactive-value="0" active-color="#13ce66" inactive-color="#ff4949">
+                     inactive-value="0" active-color="#ff4949" inactive-color="#13ce66">
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="owner" label="负责人" text-align:center width="210">
+      <el-table-column prop="owner" label="负责人" align="center" width="210">
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" text-align:center width="210">
+      <el-table-column prop="createTime" label="创建时间" align="center" width="210">
       </el-table-column>
 
-      <el-table-column fixed="right" label="操作" text-align:center width="200">
+      <el-table-column fixed="right" label="操作" align="center" width="200">
 
         <template slot-scope="scope">
-          <el-button type="success" size="small" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button type="success" size="medium" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
 
         </template>
       </el-table-column>

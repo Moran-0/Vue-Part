@@ -6,8 +6,8 @@
            active-text-color=#ccc
   >
     <div style="height:60px; line-height:60px; text-align:center">
-      <img src="../assets/logo.png" style="width:20px;position:relative;top:5px;margin-right:5px"/>
-      <b style="color:white">寄存柜管理系统</b>
+<!--    <img src="../assets/logox.png" style="width:20px;position:relative;top:5px;margin-right:5px"/>&ndash;&gt;-->
+      <b style="color:white">存知己行李寄存管理</b>
 
     </div>
 

@@ -1,33 +1,28 @@
 <template>
   <div>
     <div>
-<!--      <h2 style="text-align: center;"><i class="el-icon-s-order"></i></h2>-->
-      <!--寄存柜详情 -->
-<!--      <div style="width:200px; height:150px; margin: auto;">-->
-<!--        <el-image :src="carInfo.imgUrl"></el-image>-->
-<!--      </div>-->
 
-      <el-descriptions   title="寄存柜详情"  direction="vertical" style="width: 60%; margin:10px auto auto;" :colon="false" labelClassName="despLable" >
+<!--      <el-descriptions   title="寄存柜详情"  direction="vertical" style="width: 60%; margin:10px auto auto;" :colon="false" labelClassName="despLable" >-->
 
-        <el-descriptions-item>
-          <template slot="label">
-          <i class="el-icon-box"></i>
-            寄存柜类型
-        </template>{{finalForm.lockerClass}}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-info"></i>
-            详细信息
-          </template>{{lockerInfo.length}}长／{{lockerInfo.width}}宽／{{lockerInfo.height}}高  <!-- 可删-->
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-bank-card"></i>
-            价格
-          </template>{{lockerInfo.price}}元/天
-        </el-descriptions-item>
-      </el-descriptions>
+<!--        <el-descriptions-item>-->
+<!--          <template slot="label">-->
+<!--          <i class="el-icon-box"></i>-->
+<!--            寄存柜类型-->
+<!--        </template>{{finalForm.lockerClass}}-->
+<!--        </el-descriptions-item>-->
+<!--        <el-descriptions-item>-->
+<!--          <template slot="label">-->
+<!--            <i class="el-icon-info"></i>-->
+<!--            详细信息-->
+<!--          </template>{{lockerInfo.length}}长／{{lockerInfo.width}}宽／{{lockerInfo.height}}高  &lt;!&ndash; 可删&ndash;&gt;-->
+<!--        </el-descriptions-item>-->
+<!--        <el-descriptions-item>-->
+<!--          <template slot="label">-->
+<!--            <i class="el-icon-bank-card"></i>-->
+<!--            价格-->
+<!--          </template>{{lockerInfo.price}}元/天-->
+<!--        </el-descriptions-item>-->
+<!--      </el-descriptions>-->
 
       <!-- 账单详情 -->
 
@@ -100,7 +95,7 @@ export default {
         province: "",
         city: "",
         district: "",
-        shop: "",
+        address: "",
         tel:"",
         clerk:"",
         total: "",
@@ -116,46 +111,53 @@ export default {
   created() {
     //获取表单
     this.finalForm = Object.assign({}, this.homeForm);
+    console.log("获取表单");
+    console.log(this.homeForm);
+    let shops = JSON.parse(localStorage.getItem("shops"))[0];
+    console.log(shops);
     //获取订单详情提交表单
     this.getDetailForm = Object.assign({}, this.finalForm);
     this.getLockerInfo = Object.assign({}, this.lockerInfo);
     //修改日期格式
     this.getDetailForm.fromTime = this.getDetailForm.fromTime.toLocaleString().replaceAll("/", "-");
     this.getDetailForm.toTime = this.getDetailForm.toTime.toLocaleString().replaceAll("/", "-");
+    this.details.province = shops.province;
+    this.details.city = shops.city;
+    this.details.district = shops.district;
+    this.details.tel = shops.tel;
+    this.details.clerk = shops.owner;
+    this.details.total = 100;
+    this.details.address = shops.address;
     //查询门店详细信息
-    this.$axios({
-      method: "post",
-      url: "api/customer/checkOrder",
-      data: this.getDetailForm
-    }).then(res => {
-      if (res.data.success) {
-        this.details = Object.assign({}, res.data.obj);
-      }else{
-        this.$notify.error({
-          title: '获取订单详情失败',
-          message: res.data.msg
-        });
-      }
-    }).catch(err => {
-      console.error(err);
-    })
+    // this.request.post("").then(res => {
+    //   if (res.data.success) {
+    //     this.details = Object.assign({}, res.data.obj);
+    //   }else{
+    //     this.$notify.error({
+    //       title: '获取订单详情失败',
+    //       message: res.data.msg
+    //     });
+    //   }
+    // }).catch(err => {
+    //   console.error(err);
+    // })
     //查询寄存柜详细信息
-    this.$axios({
-      method: "post",
-      url: "api/customer/checkOrder",//待修改
-      data: this.getLockerInfo
-    }).then(res => {
-      if (res.data.success) {
-        this.lockerInfo = Object.assign({}, res.data.obj);
-      }else{
-        this.$notify.error({
-          title: '获取订单详情失败',
-          message: res.data.msg
-        });
-      }
-    }).catch(err => {
-      console.error(err);
-    })
+  //   this.$axios({
+  //     method: "post",
+  //     url: "api/customer/checkOrder",//待修改
+  //     data: this.getLockerInfo
+  //   }).then(res => {
+  //     if (res.data.success) {
+  //       this.lockerInfo = Object.assign({}, res.data.obj);
+  //     }else{
+  //       this.$notify.error({
+  //         title: '获取订单详情失败',
+  //         message: res.data.msg
+  //       });
+  //     }
+  //   }).catch(err => {
+  //     console.error(err);
+  //   })
   },
 
   methods: {
@@ -170,7 +172,7 @@ export default {
   props: ['homeForm', 'lockerInfo'],
   computed: {
     token() {
-      return this.$store.state.token;
+      // return this.$store.state.token;
     }
   }
 } //export end

@@ -1,7 +1,14 @@
 <template>
   <div id="cushome">
     <el-container style="width: 75%; margin: auto; height: 100%;">
+      <div style="margin: 0 0; text-align: center; font-size: 40px; color: #2b4b6b;"><img src="@/assets/logox.png" style="width:45px;position:relative;top:5px;margin-right:10px;margin-top:40px"/><b>”存知己“行李寄存管理平台</b></div>
+      <div style="margin:10px">
+        <el-button  style="margin-left:0 ;navbutton_background_color: lightskyblue" @click="weather">天气预报 </el-button>
+      </div>
+
+
       <el-header>
+
 <!--         跳转到客户登录页面,另外指定路径，不要使用管理后台登录页面-->
         <el-button v-if="loginCustomerName === '' && loginCustomerId === ''" type="text" @click="toLogin">登陆/注册
         </el-button>
@@ -10,16 +17,23 @@
             <i class="el-icon-user"
                style="font-size: 30px;font-weight: 800;">{{loginCustomerName !==''?loginCustomerName:loginCustomerId}}</i>
           </div>
+
+
+
+
+
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="orderList">全部订单</el-dropdown-item>
-            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+            <el-dropdown-item @click.native="orderList">全部订单</el-dropdown-item>
+            <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
       </el-header>
+
       <el-main style="height: 80%;">
         <!-- 顶部订单状态栏-->
         <div style="align-self: center;">
+
           <el-steps :active="currentStep" simple  finish-status="success" style="margin-top: 10px">
             <el-step title="下单" icon="el-icon-edit"></el-step>
             <el-step title="查看订单" icon="el-icon-view"></el-step>
@@ -40,6 +54,8 @@
           <el-button type="success" v-show="buttonValid.submit" @click="open">提交<i
               class="el-icon-arrow-right el-icon--right"></i></el-button>
         </el-button-group>
+
+
       </el-main>
 
 
@@ -96,9 +112,9 @@ export default {
       let tabs = [stepOne, stepTwo]
       return tabs[this.currentStep];
     },
-    userToken() {
-      return this.$store.state.token;
-    },
+    // userToken() {
+    //   return this.$store.state.token;
+    // },
     // loginCustomerId() {
     //   return this.$store.state.loginCustomerId;
     // },
@@ -140,6 +156,8 @@ export default {
         this.buttonValid.submit = true;
       }
     },
+
+
     //提交订单（已支付的提交）将提交给服务器
     submitOrder() {
       console.info("提交按钮被点击了>_<");
@@ -147,33 +165,12 @@ export default {
       //转换表单中的日期格式
       submitForm.fromTime = submitForm.fromTime.toLocaleString().replaceAll("/", "-");
       submitForm.toTime = submitForm.toTime.toLocaleString().replaceAll("/", "-");
-
-      this.$axios({
-        method: "POST",
-        url: "api/lease/order/makeDeal",
-        data: submitForm
-      }).then(res => {
-        if (res.data.success) {
-          this.$notify.success({
-            title: '提交成功',
-            message: res.data.msg
-          });
-          this.$router.push('/customer/CustomerOrder');
-        } else {
-          //弹出错误提示
-          this.$notify.error({
-            title: '提交失败',
-            message: res.data.msg
-          });
-          if (msg.indexOf("登录") != -1) {
-            console.log("用户未登录");
-            this.$router.push("/Customer/Login");
-          }
-        }
-      }).catch(err => {
-        console.error(err);
-      })
-    }, //submitOrder end
+      this.$notify.success({
+        title: '提交成功',
+        message: "订单完成"
+      });
+    },
+    //submitOrder end
     //获得来自子组件的信息
     setFromChild(dataForm, lockerForm = null) {
       this.orderForm = Object.assign({}, dataForm);
@@ -182,6 +179,7 @@ export default {
       }
       console.log("用户订购选择已保存");
     },
+
     //子组件发来的提示消息由此方法处理
     getNoteFromChild(type, msg) {
       //回传的信息有请确认，则停留在该页面
@@ -204,6 +202,7 @@ export default {
       }
 
     },
+
     //打开、渲染支付对话框
     open() {
       const h = this.$createElement;
@@ -211,17 +210,19 @@ export default {
         title: '支付',
         message: h('p', null, [
           h('span', null, '请使用微信支付'),
-          h('img', {
-            attrs: {
-              src: this.payImgUrl
-            }
-          }, 'VNode')
+          // h('img', {
+          //   attrs: {
+          //     src: this.payImgUrl
+          //   }
+          // }, 'VNode')
         ]),
         showCancelButton: true,
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        showClose: false,
+        showClose: true,
+
         beforeClose: (action, instance, done) => {
+          // alert("Close");
           if (action === 'confirm') {
             instance.confirmButtonLoading = true;
             instance.confirmButtonText = '执行中...';
@@ -240,43 +241,50 @@ export default {
         this.$router.push('/MyOrder')
       });
     },
+
     //前往登录页面
-    toLogin() {
-      this.$router.push('/Customer/Login'); //待修改
+    logout() {
+      this.$router.push('/Login'); //待修改
+    },
+    orderList() {
+      this.$router.push('/MyOrder'); //待修改
+    },
+    weather() {
+      this.$router.push('/weather'); //待修改
     },
     //
     handleDropdown(command) {
-      console.log(command);
-      if (command == "orderList") {
-        this.$router.push('/MyOrder');
-      }
-      if (command == "logout") {
-        //请求数据到后台，删除redis中的缓存
-        this.$axios({
-          method: 'get',
-          url: 'api/sys/user/logout'
-        }).then(res => {
-          if (res.data.success) {
-            this.$store.commit('token', '');
-            this.$store.commit('loginUserName', '');
-            this.$store.commit('loginCustomerName', '');
-            this.$store.commit('loginCustomerId', '');
-            this.$store.commit('menuIndex', '');
-            this.$store.commit('breadcrumbTitle', '');
-            this.$store.commit('breadcrumbIndex', '');
-            this.$store.commit('headImgUrl', '');
-            this.$router.push('/Customer/Login');//待修改
-          } else {
-            this.$notify({
-              showClose: true,
-              message: res.data.msg,
-              type: 'error'
-            });
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      }
+    //   console.log(command);
+    //   if (command == "orderList") {
+    //     this.$router.push('/MyOrder');
+    //   }
+    //   if (command == "logout") {
+    //     //请求数据到后台，删除redis中的缓存
+    //     this.$axios({
+    //       method: 'get',
+    //       url: 'api/sys/user/logout'
+    //     }).then(res => {
+    //       if (res.data.success) {
+    //         this.$store.commit('token', '');
+    //         this.$store.commit('loginUserName', '');
+    //         this.$store.commit('loginCustomerName', '');
+    //         this.$store.commit('loginCustomerId', '');
+    //         this.$store.commit('menuIndex', '');
+    //         this.$store.commit('breadcrumbTitle', '');
+    //         this.$store.commit('breadcrumbIndex', '');
+    //         this.$store.commit('headImgUrl', '');
+    //         this.$router.push('/Customer/Login');//待修改
+    //       } else {
+    //         this.$notify({
+    //           showClose: true,
+    //           message: res.data.msg,
+    //           type: 'error'
+    //         });
+    //       }
+    //     }).catch(err => {
+    //       console.log(err)
+    //     })
+    //   }
     }
   } //method end
 }

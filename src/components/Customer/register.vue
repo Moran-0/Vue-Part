@@ -7,15 +7,17 @@
       <div class="login_container">
         <div id="register">
         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" @keyup.enter.native="submitForm">
-
             <el-row :gutter="10" style="margin-bottom:90px">
+
               <div style="margin: 0 0; text-align: center; font-size: 40px; color: #eeeeee;"><b>——————</b></div>
-              <div style="margin: 0 0; text-align: center; font-size: 40px; color: #eeeeee;"><b>欢 迎 注 册</b></div>
+              <div style="margin: 0 0; text-align: center; font-size: 40px; color: #eeeeee;"><img src="@/assets/logox.png" style="width:35px;position:relative;top:5px;margin-right:5px"/><b>欢 迎 注 册</b></div>
               <div style="margin: 0 0; text-align: center; font-size: 40px; color: #eeeeee;"><b>——————</b></div>
+
+
           </el-row>
 
           <el-form-item prop="customerId">
-            <el-input type="text" v-model="ruleForm.customerId" placeholder="请输入手机号码）" clearable></el-input>
+            <el-input type="text" v-model="ruleForm.customerId" placeholder="请输入手机号码" clearable></el-input>
           </el-form-item>
 
           <el-form-item prop="name">
@@ -160,7 +162,7 @@ export default {
 
 }
 .login_container{
-  background-color: #2b4b6b;
+  background-color: #014A54;
   height: 100%;
 }
 

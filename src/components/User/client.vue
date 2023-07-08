@@ -15,25 +15,25 @@
     </div>
 
 
-    <el-table :data="tableData" row-key="id"
+    <el-table :data="tableData" row-key="id" cell-style="rowStyle"
               @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" label="ID" text-align:center width="70">
+      <el-table-column type="selection" width="50"></el-table-column>
+      <el-table-column prop="id" label="ID" align="center" width="100">
       </el-table-column>
-      <el-table-column prop="customer_id" label="客户账号 " text-align:center width="170">
+      <el-table-column prop="customerId" label="客户账号 " align="center"r width="230">
       </el-table-column>
-      <el-table-column prop="name" label="客户名称 " text-align:center  width="170">
+      <el-table-column prop="name" label="客户名称 " align="center"  width="170">
       </el-table-column>
-      <el-table-column prop="password" label="客户密码" text-align:center width="170">
+      <el-table-column prop="password" label="客户密码" align="center" width="230">
       </el-table-column>
 
-      <el-table-column prop="create_time" label="注册时间" text-align:center width="220">
+      <el-table-column prop="createTime" label="注册时间" align="center" width="240">
       </el-table-column>
-      <el-table-column fixed="right" label="操作" text-align:center width="200">
+      <el-table-column fixed="right" label="操作" align="center" width="300">
 
 
         <template slot-scope="scope">
-          <el-button type="success" size="small" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button type="success" size="medium" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm style="margin-left:5px"
                          confirm-button-text='确定'
                          cancel-button-text='再想想'
@@ -43,7 +43,7 @@
                          @confirm="handleDelete(scope.row.id)"
           >
 
-            <el-button type="danger" size="small" slot="reference" icon="el-icon-delete" >删除</el-button>
+            <el-button type="danger" size="medium" slot="reference" icon="el-icon-delete" >删除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>
@@ -65,12 +65,11 @@
     <el-dialog title="客户信息" :visible.sync="dialogFormVisible" width="30%">
       <el-form label-width="80px" size="small">
         <el-form-item label="账号">
-          <el-input v-model="form.customer_id" key="domain.key"autocomplete="off" style="width:85%" prefix-icon="el-icon-user"></el-input>
+          <el-input v-model="form.customerId" key="domain.key"autocomplete="off" style="width:85%" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <el-form-item label="名称">
-          <el-input v-model="form.customer_name" autocomplete="off" style="width:85%" prefix-icon="el-icon-user"></el-input>
+          <el-input v-model="form.customerName" autocomplete="off" style="width:85%" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
-
         <el-form-item label="密码">
           <el-input v-model="form.password" autocomplete="off" style="width:85%" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
@@ -170,19 +169,10 @@ export default {
       this.usercode="";
       this.load();
     },
+    rowStyle(){
+      return "text-align:center"
+    },
 
-    // insert(){
-    //   this.form.password="123456"
-    //   this.request.post("/",this.form).then(res=>{
-    //     if(res){
-    //       this.$message.success("保存成功");
-    //       this.dialogFormVisible=false;
-    //       this.load();
-    //     }else{
-    //       this.$message.error("保存失败");
-    //     }
-    //   })
-    // },
     handleDelete(id){
       let url = "/customer/"+id+""
       this.request.get(url).then(res=>{

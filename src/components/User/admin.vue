@@ -17,32 +17,32 @@
     <el-table :data="tableData" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
 
-      <el-table-column prop="userId" label="员工账号" text-align:center  width="100">
+      <el-table-column prop="userId" label="员工账号" align="center"  width="150">
       </el-table-column>
-      <el-table-column prop="userName" label="员工姓名" text-align:center width="170">
-      </el-table-column>
-
-      <el-table-column prop="shopId" label="所属门店号" text-align:center width="100">
+      <el-table-column prop="userName" label="员工姓名" align="center" width="170">
       </el-table-column>
 
-      <el-table-column prop="status" label="员工状态" width="100">
+      <el-table-column prop="shopId" label="所属门店号" align="center" width="130">
+      </el-table-column>
+
+      <el-table-column prop="status" label="员工状态"align="center"  width="150">
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.status" @change="change(scope.row)" active-value="1"
-                     inactive-value="0" active-color="#13ce66" inactive-color="#ff4949">
+          <el-switch v-model="scope.row.status" @change="change(scope.row)" active-value="0"
+                     inactive-value="1" active-color="#ff4949" inactive-color="#13ce66">
           </el-switch>
         </template>
       </el-table-column>
 
-      <el-table-column prop="password" label="员工密码" text-align:center width="250">
+      <el-table-column prop="password" label="员工密码" align="center" width="270">
     </el-table-column>
-      <el-table-column prop="createTime" label="注册时间" text-align:center width="190">
+      <el-table-column prop="createTime" label="注册时间" align="center" width="290">
       </el-table-column>
 
 
       <el-table-column fixed="right" label="操作" text-align:center width="200">
 
         <template slot-scope="scope">
-          <el-button type="success" size="small" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button type="success" size="medium" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
 
         </template>
       </el-table-column>

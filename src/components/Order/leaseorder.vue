@@ -16,24 +16,23 @@
 
       <el-table :data="tableData" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="orderId" label="订单号 " text-align:center width="100">
+      <el-table-column prop="orderId" label="订单号 " align="center" width="80">
       </el-table-column>
-      <el-table-column prop="customerId" label="客户账号 " text-align:center width="170">
+      <el-table-column prop="customerId" label="客户账号 " align="center" width="170">
       </el-table-column>
-      <el-table-column prop="lockerId" label="寄存柜ID " text-align:center  width="100">
+      <el-table-column prop="lockerId" label="寄存柜ID " align="center"  width="90">
       </el-table-column>
-      <el-table-column prop="shopId" label="门店ID" text-align:center width="170">
+      <el-table-column prop="shopId" label="门店ID" align="center" width="90">
       </el-table-column>
-      <el-table-column prop="fromTime" label="开始时间" text-align:center width="230">
+      <el-table-column prop="fromTime" label="开始时间" align="center" width="230">
       </el-table-column>
-      <el-table-column prop="toTime" label="结束时间" text-align:center width="230">
+      <el-table-column prop="toTime" label="结束时间" align="center" width="230">
       </el-table-column>
-      <el-table-column prop="payTotal" label="金额" text-align:center width="100">
+      <el-table-column prop="payTotal" label="金额" align="center" width="100">
       </el-table-column>
-      <el-table-column prop="orderTime" label="订单时间" text-align:center width="220">
+      <el-table-column prop="orderTime" label="订单时间" align="center" width="220">
       </el-table-column>
-
-      <el-table-column fixed="right" label="操作" text-align:center width="200">
+      <el-table-column fixed="right" label="操作" align="center" width="200">
 
 
         <template slot-scope="scope">
@@ -47,7 +46,7 @@
                          @confirm="handleDelete(scope.row.id)"
           >
 
-            <el-button type="danger" size="small" slot="reference" icon="el-icon-delete" >删除</el-button>
+            <el-button type="danger" size="medium" slot="reference" icon="el-icon-delete" >删除</el-button>
           </el-popconfirm>
 
 

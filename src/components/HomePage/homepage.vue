@@ -43,7 +43,7 @@
       <el-col :span="6">
         <el-card  style="color: deeppink">
           <div><i class="el-icon-bank-card"/>使用率最高</div>
-          <div style="padding:10px 0;text-align:center;font-weight:bold">中型寄存柜</div>
+          <div style="padding:10px 0;text-align:center;font-weight:bold">小箱</div>
         </el-card>
       </el-col>
       <el-col :span="6">
@@ -108,6 +108,8 @@
 
   </div>
 
+
+
   </div>
 </template>
 
@@ -115,8 +117,6 @@
 <script >
 import { ref, computed } from "vue";
 
-import * as echarts from 'echarts';
-import { reactive } from 'vue'
 
 export default {
   props: {
@@ -216,6 +216,7 @@ export default {
       daysOfWeek,
       days,
       title,
+
       prevMonth,
       nextMonth,
       isToday,
@@ -224,11 +225,21 @@ export default {
       select,
     };
   },
-};
+
+
+}
+
+
+
+
+
 
 </script>
 
 <style scoped>
+
+
+
 
 .container {
   display: flex;
@@ -309,7 +320,7 @@ export default {
 }
 
 .today {
-  background-color: lightblue;
+  background-color:#C3FCF1;
 }
 
 .selected {

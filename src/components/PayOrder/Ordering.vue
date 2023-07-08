@@ -20,9 +20,9 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="柜型" prop="fromShopId">
-        <el-select v-model="shopForm.fromShopId" placeholder="请选择" @change="$forceUpdate()" class="selectItems">
-          <el-option v-for="locker in this.lockers" :key="locker.id" :label="locker.name" :value="locker.id">
+      <el-form-item label="柜型" prop="lockerId">
+        <el-select v-model="shopForm.lockerId" placeholder="请选择" @change="$forceUpdate()" class="selectItems">
+          <el-option v-for="locker in this.lockers" :key="locker.id" :label="locker.type" :value="locker.id">
           </el-option>
         </el-select>
       </el-form-item>
@@ -49,7 +49,6 @@
         </el-col>
       </el-form-item>
 
-
     </el-form>
 
 <!--        <el-dialog :title="agreement.name" :visible.sync="dialogVisible" width="60%">-->
@@ -64,7 +63,7 @@
 </template>
 
 <script>
-import { regionData,CodeToText } from 'element-china-area-data'
+import { regionData,codeToText } from 'element-china-area-data'
 export default {
   name: "Ordering",
   data() {
@@ -76,8 +75,8 @@ export default {
       lockers:[],
       shopForm: {
         fromDistrict:'',
-        fromShopId: -1,
-        lockerId :-1,
+        fromShopId: 0,
+        lockerId :0,
         fromTime: "",
         toTime: "",
       },
@@ -142,55 +141,58 @@ export default {
     //处理区变化，通过@change绑定事件
     addressChange(arr) {
       //清空已有选择（防止网络请求失败）
+      console.log("addressChange");
+      console.log(this.shopForm);
       this.shops = [];
-      this.getShop(arr[2]);
+      let locality = codeToText[arr[2]];
+      console.log(locality);
+      this.getShop(locality);
       this.shopForm.fromShopId = '';
-      console.log(arr);
-      console.log(CodeToText[arr[0]], CodeToText[arr[1]], CodeToText[arr[2]]);
+      // console.log(arr);
+      // console.log(codeToText[arr[0]], codeToText[arr[1]], codeToText[arr[2]]);
     },
     shopChange(nowShopId) {
+      console.log("shopChange");
+      console.log(this.shopForm);
       this.lockers = [];
-      this.getLocker(nowShopId);
-      this.shopForm.fromShopId = '';
+      this.getLocker(this.shopForm.fromShopId);
     },
     //通过区获取门店
     getShop(district) {
       if (district == undefined) return
-      this.$axios({
-        method: "POST",
-        url: "api/shop/shop/getShopByCityId" + district,
-        data: {
-          districtName: district
-        }
+      this.request.get("/getShop",{
+        params: {district:district}
       }).then(res => {
-        if (res.data.success) {
-          this.shops = res.data.obj;
+        if (res.code == 1) {
+          console.log(res.data);
+          this.shops = res.data;
+          localStorage.setItem("shops",JSON.stringify(res.data));
         } else {
           this.$notify.error({
             title: '操作失败',
-            message: res.data.msg
+            message: res.msg
           });
         }
       }).catch(err => {
         console.error(err);
       }); //axios end
     },
+
     //通过门店获取寄存柜型号
     getLocker(shopId) {
+      console.log("getLocker");
+      console.log(shopId);
+      localStorage.setItem("shopId", JSON.stringify(shopId));
       if (shopId == undefined) return
-      this.$axios({
-        method: "POST",
-        url: "api/shop/shop/getShopByCityId" + shopId,
-        data: {
-          shopID: shopId
-        }
+      this.request.get("/getLockerType",{
+        params:{shopId: shopId}
       }).then(res => {
-        if (res.data.success) {
-          this.lockers = res.data.obj;
+        if (res.code == 1) {
+          this.lockers = res.data;
         } else {
           this.$notify.error({
             title: '操作失败',
-            message: res.data.msg
+            message: res.msg
           });
         }
       }).catch(err => {
@@ -218,7 +220,7 @@ export default {
     //从父组件读取表单
     this.shopForm = Object.assign({}, this.homeForm);
     //截停连续的请求，防止无授权时多次弹窗
-    if (getResult.status != 200) {
+    if (getResult.status !== 200) {
       console.log("用户未登录或网络请求失败，暂停请求");
       return;
     }

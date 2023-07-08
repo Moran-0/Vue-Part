@@ -17,31 +17,31 @@
 
     <el-table :data="tableData" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" label="ID" text-align:center width="70">
+      <el-table-column prop="id" label="ID" align="center" width="70">
       </el-table-column>
-      <el-table-column prop="modelId" label="型号ID" text-align:center  width="100">
+      <el-table-column prop="modelId" label="型号ID" align="center"  width="130">
       </el-table-column>
-      <el-table-column prop="type" label="类型" text-align:center width="100">
+      <el-table-column prop="type" label="类型" align="center" width="110">
       </el-table-column>
-      <el-table-column prop="shopId" label="长度" text-align:center width="100">
+      <el-table-column prop="shopId" label="长度" align="center" width="110">
       </el-table-column>
-      <el-table-column prop="capacity" label="容量" text-align:center width="100">
+      <el-table-column prop="capacity" label="容量" align="center" width="110">
       </el-table-column>
-      <el-table-column prop="length" label="长度" text-align:center width="100">
+      <el-table-column prop="length" label="长度" align="center" width="110">
       </el-table-column>
-      <el-table-column prop="width" label="宽度" text-align:center width="100">
+      <el-table-column prop="width" label="宽度" align="center" width="110">
       </el-table-column>
-      <el-table-column prop="high" label="高度" text-align:center width="100">
+      <el-table-column prop="high" label="高度" align="center" width="110">
       </el-table-column>
-      <el-table-column prop="price" label="价格" text-align:center width="100">
+      <el-table-column prop="price" label="价格" align="center" width="150">
       </el-table-column>
-      <el-table-column prop="status" label="状态" text-align:center width="120">
+      <el-table-column prop="status" label="状态" align="center" width="120">
       </el-table-column>
 
-      <el-table-column fixed="right" label="操作" text-align:center width="200">
+      <el-table-column fixed="right" label="操作" align="center" width="280">
 
         <template slot-scope="scope">
-          <el-button type="success" size="small" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button type="success" size="medium" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
           <el-popconfirm style="margin-left:5px"
                          confirm-button-text='确定'
                          cancel-button-text='再想想'
@@ -51,7 +51,7 @@
                          @confirm="handleDelete(scope.row.id)"
           >
 
-            <el-button type="danger" size="small" slot="reference" icon="el-icon-delete" >删 除</el-button>
+            <el-button type="danger" size="medium" slot="reference" icon="el-icon-delete" >删 除</el-button>
           </el-popconfirm>
         </template>
       </el-table-column>

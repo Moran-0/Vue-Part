@@ -33,6 +33,6 @@ nav a.router-link-exact-active {
 
 <script setup>
 import Manage from "@/views/Manage.vue";
-import Login from "@/views/Login.vue";
+import Login from "@/../../help-oringal/src/views/Login.vue";
 
 </script>
